@@ -45,7 +45,7 @@ server.on('connection', (socket) => { //socket callback invoked on connection
       socket.nickname = data.split('/nick ')[1] || socket.nickname;
       socket.nickname = socket.nickname.trim();
       client.nickname = socket.nickname;
-      socket.write(`You've changed your name and become a real lion, Lion_${socket.nickname}!`);
+      socket.write(`You've changed your name and become a real lion, ${socket.nickname}!`);
       return;
     }
 
@@ -62,10 +62,24 @@ server.on('connection', (socket) => { //socket callback invoked on connection
     }
 
     if(data.startsWith('/troll')){
-      let timesToWrite = dat.split('/troll ')[1]
+      let timesToWrite = data.split('/troll ')[1].slice(0,1);
+      let content = data.split(' ').slice(2).join(' ');
+      console.log(timesToWrite);
+      for (var i = 0; i < timesToWrite; i++){
+        clientPool.forEach((user) => {
+          user.socket.write(`${socket.nickname}: ${content}\n`);
+        });
+      }
+      return;
     }
 
-    //troll should take in a number and a message and send the message to everyone that number of times
+    if(data.startsWith('/quit')){
+      clientPool.forEach((user) => {
+        user.socket.write(`\n${socket.nickname} has quit!\n`);
+      });
+      client.socket.end();
+      return;
+    }
 
     clientPool.forEach((user) => {
       user.socket.write(`${socket.nickname}: ${data}`);
@@ -73,7 +87,6 @@ server.on('connection', (socket) => { //socket callback invoked on connection
   });
 });
 
-
 server.listen(4000, () => {
-  console.log('server up on port 3000');
+  console.log('server up on port 4000');
 });
