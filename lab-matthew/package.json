@@ -1,0 +1,16 @@
+{
+  "name": "lab-matthew",
+  "version": "1.0.0",
+  "description": "This application is a simple chat room to which users can connect and chat with each other! It includes the ability to change your name, direct message (private message) others, and even troll.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^4.0.0"
+  }
+}

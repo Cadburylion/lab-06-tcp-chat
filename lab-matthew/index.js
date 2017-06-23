@@ -10,18 +10,11 @@ let Client = function(socket, nickname){
   this.socket = socket;
 };
 
-// server.on('connection', (socket) => {
-//   socket.write('hello socket, welcome to slugchat!\n')
-//   socket.nickname = `user_${Math.random()}`
-//   console.log(`${socket.nickname} connected!`)
-//
-//   clientPool = [...clientPool, socket];
-
 
 server.on('connection', (socket) => { //socket callback invoked on connection
   let client = new Client(socket, `lion_cub_${Math.floor(Math.random() * (1000 - 1) + 1)}`);
 
-  socket.write('hello socket, welcome to lionchat!\n');
+  socket.write(`hello ${client.nickname}, welcome to lionchat!\n`);
   socket.nickname = client.nickname;
   console.log(`${socket.nickname} connected!`);
   clientPool = [...clientPool, client]; //same as push operation, mutable
@@ -29,7 +22,7 @@ server.on('connection', (socket) => { //socket callback invoked on connection
   let handleDisconnect = () => {
     console.log(`${socket.nickname} left the chat.`);
     clientPool = clientPool.filter((item) => {
-      item != socket;
+      item.socket != socket;
     });
   };
 
